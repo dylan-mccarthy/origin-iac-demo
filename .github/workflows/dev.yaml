@@ -1,0 +1,19 @@
+name: Dev Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'environments/dev.tfvars'
+      - '.github/workflows/dev.yaml'
+
+jobs:
+  dev-deploy:
+    name: "Trigger Terraform Workflow"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: '.github/workflows/deploy.yaml@main'
+        with:
+          environment: dev
