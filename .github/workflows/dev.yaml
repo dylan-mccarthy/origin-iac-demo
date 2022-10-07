@@ -2,8 +2,9 @@ name: Dev Workflow
 
 on:
   pull_request:
+
     paths:
-      - 'environments/dev.tfvars'
+      - 'terraform/environments/dev.tfvars'
       - '.github/workflows/dev.yaml'
 
 jobs:
