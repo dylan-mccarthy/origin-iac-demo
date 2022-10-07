@@ -2,6 +2,7 @@ name: Dev Workflow
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
       - 'environments/storage/dev.tfvars'
       - '.github/workflows/dev.yaml'
