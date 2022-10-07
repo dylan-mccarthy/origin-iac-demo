@@ -2,8 +2,6 @@ name: Dev Workflow
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'environments/dev.tfvars'
       - '.github/workflows/dev.yaml'
