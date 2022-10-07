@@ -11,3 +11,5 @@ jobs:
   dev-deploy:
     name: "Trigger Terraform Workflow"
     uses: './.github/workflows/deploy.yaml'
+    with:
+      environment: dev
