@@ -3,8 +3,8 @@ name: Test Workflow
 on:
   pull_request:
     paths:
-      - 'environments/dev.tfvars'
-      - '.github/workflows/dev.yaml'
+      - 'environments/storage/test.tfvars'
+      - '.github/workflows/test.yaml'
 
 jobs:
   dev-deploy:
