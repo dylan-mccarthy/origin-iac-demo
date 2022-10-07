@@ -3,7 +3,7 @@ name: Dev Workflow
 on:
   pull_request:
     paths:
-      - 'environments/dev.tfvars'
+      - 'environments/storage/dev.tfvars'
       - '.github/workflows/dev.yaml'
 
 jobs:
