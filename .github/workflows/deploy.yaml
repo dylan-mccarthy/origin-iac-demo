@@ -2,7 +2,11 @@ name: Deploy to Azure
 
 on:
   workflow_call:
-    
+    inputs:
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
 jobs:
   terraform:
     name: "Terraform"
@@ -35,7 +39,7 @@ jobs:
 
       - name: Terraform Plan
         id: Plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -var-file="environments/${{ inputs.environment }}.tfvars"
         continue-on-error: true
 
       - uses: actions/github-script@v6
