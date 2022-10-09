@@ -57,9 +57,9 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.Init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.Validate.outcome }}\`
             <details><summary>Validation Output</summary>
-            \`\`\`\n
+            \`\`\`terraform\n
             ${{ steps.Validate.outputs.stdout }}
-            \`\`\`
+            \n\`\`\`
             </details>
 
             #### Terraform Plan 📖\`${{ steps.Plan.outcome }}\`
@@ -67,7 +67,7 @@ jobs:
 
             \`\`\`\n
             ${process.env.PLAN}
-            \`\`\`
+            \n\`\`\`
 
             </details>
 
