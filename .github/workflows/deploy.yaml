@@ -3,6 +3,7 @@ name: Deploy to Azure
 permissions:
   id-token: write
   contents: read
+  pull-requests: write
 
 on:
   workflow_call:
@@ -21,10 +22,14 @@ jobs:
         shell: bash
     
     steps:
-      - uses: actions/checkout@v3
-      - uses: azure/login@v1
+      - name: "Azure Login"
+        uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - uses: actions/checkout@v3
           
       - uses: hashicorp/setup-terraform@v2
       
@@ -46,7 +51,7 @@ jobs:
       - name: Terraform Plan
         id: Plan
         working-directory: ./terraform/storage
-        run: terraform plan -no-color -var-file="terraform/storage/environments/${{ inputs.environment }}.tfvars"
+        run: terraform plan -no-color -var-file="./environments/${{ inputs.environment }}.tfvars"
         continue-on-error: true
 
       - uses: actions/github-script@v6
@@ -54,27 +59,21 @@ jobs:
         env:
           PLAN: "terraform/storage/${{ steps.Plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.Fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.Init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.Validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-            \`\`\`\n
-            ${{ steps.Validate.outputs.stdout }}
-            \`\`\`
-            </details>
-
             #### Terraform Plan 📖\`${{ steps.Plan.outcome }}\`
-             <details><summary>Show Plan</summary>
+
+            <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-
+            ${{ steps.Plan.outputs.stdout }}
+            \n\`\`\`
+            
             </details>
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
