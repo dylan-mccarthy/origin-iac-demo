@@ -51,7 +51,6 @@ jobs:
         env:
           PLAN: "terraform/storage/${{ steps.Plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.Fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.Init.outcome }}\`
