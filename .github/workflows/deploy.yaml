@@ -56,21 +56,12 @@ jobs:
             const output = `#### Terraform Format and Style 🖌\`${{ steps.Fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.Init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.Validate.outcome }}\`
-            <details><summary>Validation Output</summary>
-            \`\`\`terraform\n
-            ${{ steps.Validate.outputs.stdout }}
-            \n\`\`\`
-            </details>
-
             #### Terraform Plan 📖\`${{ steps.Plan.outcome }}\`
-             <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${process.env.PLAN}
-            \n\`\`\`
-
-            </details>
-
+            \`\`\`
+            ${{ steps.Plan.outputs.stdout }}
+            \`\`\`
+            `
+            
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
             github.rest.issues.createComment({
