@@ -13,7 +13,7 @@ variable "location" {
     description = "The location of the resource group"
 }
 
-var "environemnt" {
+variable "environemnt" {
     type        = string
     description = "The environment"
 }

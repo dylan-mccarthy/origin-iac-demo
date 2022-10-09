@@ -23,29 +23,37 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+      - uses: azure/;login@v1
+        with:
+          creds: '{ "clientId": "${{ secrets.AZURE_AD_CLIENT_ID }}", "clientSecret": "${{ secrets.AZURE_AD_CLIENT_SECRET }}", "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}", "tenantId": "${{ secrets.AZURE_AD_TENANT_ID }}" }'
+          
       - uses: hashicorp/setup-terraform@v2
       
       - name: Terraform Fmt
         id: Fmt
-        run: terraform fmt -check -recursive
+        working-directory: ./terraform/storage
+        run: terraform fmt
 
       - name: Terraform Init
         id: Init
+        working-directory: ./terraform/storage
         run: terraform init
 
       - name: Terraform Validate
         id: Validate
+        working-directory: ./terraform/storage
         run: terraform validate -no-color
 
       - name: Terraform Plan
         id: Plan
-        run: terraform plan -no-color -var-file="environments/storage/${{ inputs.environment }}.tfvars"
+        working-directory: ./terraform/storage
+        run: terraform plan -no-color -var-file="terraform/storage/environments/${{ inputs.environment }}.tfvars"
         continue-on-error: true
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "terraform\n${{ steps.Plan.outputs.stdout }}"
+          PLAN: "terraform/storage/${{ steps.Plan.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
