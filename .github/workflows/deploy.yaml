@@ -57,12 +57,16 @@ jobs:
             #### Terraform Initialization ⚙️\`${{ steps.Init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.Validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.Plan.outcome }}\`
-            \`\`\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
             ${{ steps.Plan.outputs.stdout }}
-            \`\`\`
-            `
+            \n\`\`\`
             
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
