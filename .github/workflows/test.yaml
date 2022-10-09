@@ -2,8 +2,9 @@ name: Test Workflow
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     paths:
-      - 'environments/storage/test.tfvars'
+      - 'terraform/storage/environments/test.tfvars'
       - '.github/workflows/test.yaml'
 
 jobs:
