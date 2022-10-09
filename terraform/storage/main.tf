@@ -14,9 +14,6 @@ resource "azurerm_storage_account" "sa" {
     account_tier             = "Standard"
     account_replication_type = "LRS"
     account_kind             = "StorageV2"
-    enable_https_traffic_only = true
-    min_tls_version = "TLS1_2"
-    allow_blob_public_access = false
     network_rules {
         default_action = "Deny"
         bypass         = ["AzureServices"]
