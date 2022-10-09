@@ -22,6 +22,12 @@ jobs:
         shell: bash
     
     steps:
+      - name: "Azure Login"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+          
       - uses: actions/checkout@v3
           
       - uses: hashicorp/setup-terraform@v2
